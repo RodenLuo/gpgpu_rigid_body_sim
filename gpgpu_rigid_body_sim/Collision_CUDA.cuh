@@ -2,7 +2,11 @@
 
 #include <cuda_runtime.h>
 
-__global__ void collision_kernel(int* A, int*B, int*C, int N);
+__global__ void collision_kernel(float* positions, float* velocities, int numberOfBalls,
+	float boxSize, float resistance, float* gravity, int ballCollisionRun,
+	float* barrierShift, int barrierIsOn);
 
-void collision_kernel_call(int * A, int*B, int* C, int N, dim3 grid_dim, dim3 block_dim);
+void collision_kernel_call(float* positions, float* velocities, int numberOfBalls,
+	float boxSize, float resistance, float* gravity, int ballCollisionRun,
+	float* barrierShift, int barrierIsOn, dim3 grid_dim, dim3 block_dim);
 

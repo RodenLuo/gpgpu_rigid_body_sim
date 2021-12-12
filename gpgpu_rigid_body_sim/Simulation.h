@@ -34,6 +34,10 @@ public:
 
 	bool Init();
 	bool InitCL();
+
+	void Init_CUDA();
+	void Free_CUDA();
+
 	void Clean();
 	void Update();
 	void Render();
@@ -67,8 +71,7 @@ private:
 	void VecAddTest_CUDA();
 	void Collision_CUDA();
 	void Update_CUDA(bool updateAll = true);
-	void Init_CUDA();
-	void Free_CUDA();
+	
 
 	void UpdateVelocitiesFrom_GPU();
 	bool GPU_isActive = true;

@@ -89,6 +89,7 @@ void Simulation::ballInit() {
 
 void Simulation::Clean() {
 	shader.Clean();
+	Free_CUDA();
 }
 
 //Update the Camera

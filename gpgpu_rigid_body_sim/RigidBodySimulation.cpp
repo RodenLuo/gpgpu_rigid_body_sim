@@ -128,6 +128,9 @@ int main(int argc, char* args[])
 		return 1;
 	}
 
+	// CUDA Init
+	simulation.Init_CUDA();
+
 	SDL_AddTimer(1000, fps_timer_callback, NULL);
 	//https://wiki.libsdl.org/SDL_atomic_t
 

@@ -33,10 +33,12 @@ __global__ void collision_kernel(float* positions, float* velocities, int number
 		return;
 	}
 
+	float dt = 1.0;
+
 	//Apply the velocities, the gravity and the resistance
 	iVelocity = iVelocity - gravity;
 	iVelocity = iVelocity * resistance;
-	iPosition = iPosition + iVelocity;
+	iPosition = iPosition + iVelocity * dt;
 
 	//Handle the ball to ball collision and reflection
 	if (ballCollisionRun == 1) {
@@ -74,38 +76,38 @@ __global__ void collision_kernel(float* positions, float* velocities, int number
 
 	//Handle the ball to barrier collision and refraction
 	if (barrierIsOn == 1) {
-		glm::vec3 normal2 = (glm::vec3)(0.0f, 0.0f, 0.0f);
+		glm::vec3 normal2 = glm::vec3(0.0f, 0.0f, 0.0f);
 		float barrierSize = boxSize / 6;
 
 		if (iPosition.y <= (-boxSize + barrierSize * 2.0f) + 1.0f &&
 			(iPosition.x >= -barrierSize + barrierShift.x) && (iPosition.x <= barrierSize + barrierShift.x) &&
 			(iPosition.z >= -barrierSize + barrierShift.z) && (iPosition.z <= barrierSize + +barrierShift.z)) {
-			normal2 = (glm::vec3)(0.0f, 1.0f, 0.0f);
+			normal2 = glm::vec3(0.0f, 1.0f, 0.0f);
 			iPosition.y = (-boxSize + barrierSize * 2.0f) + 1.01f;
 		}
 		if (iPosition.y < (-boxSize + barrierSize * 2.0f) &&
 			(iPosition.x > -barrierSize + barrierShift.x - 1.0f) && (iPosition.x < -barrierSize + barrierShift.x) &&
 			(iPosition.z > -barrierSize + barrierShift.z) && (iPosition.z < barrierSize + +barrierShift.z)) {
-			normal2 = (glm::vec3)(1.0f, 0.0f, 0.0f);
+			normal2 = glm::vec3(1.0f, 0.0f, 0.0f);
 			iPosition.x = -barrierSize + barrierShift.x - 1.01f;
 		}
 		if (iPosition.y < (-boxSize + barrierSize * 2.0f) &&
 			(iPosition.x < barrierSize + barrierShift.x + 1.0f) && (iPosition.x > barrierSize + barrierShift.x) &&
 			(iPosition.z > -barrierSize + barrierShift.z) && (iPosition.z < barrierSize + +barrierShift.z)) {
-			normal2 = (glm::vec3)(-1.0f, 0.0f, 0.0f);
+			normal2 = glm::vec3(-1.0f, 0.0f, 0.0f);
 			iPosition.x = barrierSize + barrierShift.x + 1.02f;
 		}
 
 		if (iPosition.y < (-boxSize + barrierSize * 2.0f) &&
 			(iPosition.z > -barrierSize + barrierShift.z - 1.0f) && (iPosition.z < -barrierSize + barrierShift.z) &&
 			(iPosition.x > -barrierSize + barrierShift.x) && (iPosition.x < barrierSize + +barrierShift.x)) {
-			normal2 = (glm::vec3)(0.0f, 0.0f, 1.0f);
+			normal2 = glm::vec3(0.0f, 0.0f, 1.0f);
 			iPosition.z = -barrierSize + barrierShift.z - 1.01f;
 		}
 		if (iPosition.y < (-boxSize + barrierSize * 2.0f) &&
 			(iPosition.z < barrierSize + barrierShift.z + 1.0f) && (iPosition.z > barrierSize + barrierShift.z) &&
 			(iPosition.x > -barrierSize + barrierShift.x) && (iPosition.x < barrierSize + +barrierShift.x)) {
-			normal2 = (glm::vec3)(0.0f, 0.0f, -1.0f);
+			normal2 = glm::vec3(0.0f, 0.0f, -1.0f);
 			iPosition.z = barrierSize + barrierShift.z + 1.02f;
 		}
 
@@ -116,30 +118,30 @@ __global__ void collision_kernel(float* positions, float* velocities, int number
 	}
 
 	//Handle the ball to wall collision and reflection
-	glm::vec3 normal = (glm::vec3)(0.0f, 0.0f, 0.0f);
+	glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	if (iPosition.y <= -boxSize + 1.0f) {
-		normal = (glm::vec3)(0.0f, 1.0f, 0.0f);
+		normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		iPosition.y = -boxSize + 1.01f;
 	}
 	if (iPosition.y >= boxSize - 1.0f) {
-		normal = (glm::vec3)(0.0f, -1.0f, 0.0f);
+		normal = glm::vec3(0.0f, -1.0f, 0.0f);
 		iPosition.y = boxSize - 1.01f;
 	}
 	if (iPosition.x <= -boxSize + 1.0f) {
-		normal = (glm::vec3)(1.0f, 0.0f, 0.0f);
+		normal = glm::vec3(1.0f, 0.0f, 0.0f);
 		iPosition.x = -boxSize + 1.01f;
 	}
 	if (iPosition.x >= boxSize - 1.0f) {
-		normal = (glm::vec3)(-1.0f, 0.0f, 0.0f);
+		normal = glm::vec3(-1.0f, 0.0f, 0.0f);
 		iPosition.x = boxSize - 1.01f;
 	}
 	if (iPosition.z <= -boxSize + 1.0f) {
-		normal = (glm::vec3)(0.0f, 0.0f, 1.0f);
+		normal = glm::vec3(0.0f, 0.0f, 1.0f);
 		iPosition.z = -boxSize + 1.01f;
 	}
 	if (iPosition.z >= boxSize - 1.0f) {
-		normal = (glm::vec3)(0.0f, 0.0f, -1.0f);
+		normal = glm::vec3(0.0f, 0.0f, -1.0f);
 		iPosition.z = boxSize - 1.01f;
 	}
 

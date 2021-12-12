@@ -129,8 +129,6 @@ private:
 	// CUDA variables 
 	float* positions_cuda;
 	float* velocities_cuda;
-	float* gravity_cuda;
-	float* barrierShift_cuda;
 };
 
 std::string currentDateTime();

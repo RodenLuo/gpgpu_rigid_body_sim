@@ -70,8 +70,8 @@ void Simulation::Collision_CUDA()
 	dim3 grid_dim(block_per_grid, 1, 1);
 
 	collision_kernel_call(positions_cuda, velocities_cuda, numberOfBalls,
-		boxSize, resistance, gravity_cuda, ballCollisionRun,
-		barrierShift_cuda, barrierIsOn, grid_dim, block_dim);
+		boxSize, resistance, gravity, ballCollisionRun,
+		barrierShift, barrierIsOn, grid_dim, block_dim);
 
 	cudaMemcpy(positions, positions_cuda, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyDeviceToHost);
 
@@ -82,9 +82,6 @@ void Simulation::Init_CUDA()
 {
 	cudaMalloc((void**)&positions_cuda, 3 * numberOfBallsArray * sizeof(float));
 	cudaMalloc((void**)&velocities_cuda, 3 * numberOfBallsArray * sizeof(float));
-
-	cudaMalloc((void**)&gravity_cuda, 3 * sizeof(float));
-	cudaMalloc((void**)&barrierShift_cuda, 3 * sizeof(float));
 
 	cudaError_t error = cudaGetLastError();
 	if (error != cudaSuccess)
@@ -99,9 +96,6 @@ void Simulation::Free_CUDA()
 {
 	cudaFree(positions_cuda);
 	cudaFree(velocities_cuda);
-
-	cudaFree(gravity_cuda);
-	cudaFree(barrierShift_cuda);
 }
 
 void Simulation::Update_CUDA(bool updateAll) {
@@ -112,7 +106,4 @@ void Simulation::Update_CUDA(bool updateAll) {
 		cudaMemcpy(velocities_cuda, velocities, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyHostToDevice);
 	}
 	
-	//Set the current variables
-	cudaMemcpy(gravity_cuda, &gravity, 3 * sizeof(float), cudaMemcpyHostToDevice);
-	cudaMemcpy(barrierShift_cuda, &barrierShift, 3 * sizeof(float), cudaMemcpyHostToDevice);
 }

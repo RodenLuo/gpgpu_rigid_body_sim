@@ -3,18 +3,21 @@
 
 
 __global__ void collision_kernel(float* positions, float* velocities, int numberOfBalls,
-	float boxSize, float resistance, float* gravity, int ballCollisionRun,
-	float* barrierShift, int barrierIsOn)
+	float boxSize, float resistance, glm::vec3 gravity, int ballCollisionRun,
+	glm::vec3 barrierShift, int barrierIsOn)
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-	positions[3 * i] = 0.0f;
+	/*float3 tmp = float3(0.0f, 0.0f, 0.0f);*/
+
+	positions[3 * i] = 0;
+
 }
 
 
 void collision_kernel_call(float* positions, float* velocities, int numberOfBalls,
-	float boxSize, float resistance, float* gravity, int ballCollisionRun,
-	float* barrierShift, int barrierIsOn, dim3 grid_dim, dim3 block_dim)
+	float boxSize, float resistance, glm::vec3 gravity, int ballCollisionRun,
+	glm::vec3 barrierShift, int barrierIsOn, dim3 grid_dim, dim3 block_dim)
 {
 	collision_kernel <<<grid_dim, block_dim>>> (positions, velocities, numberOfBalls,
 		boxSize, resistance, gravity, ballCollisionRun,

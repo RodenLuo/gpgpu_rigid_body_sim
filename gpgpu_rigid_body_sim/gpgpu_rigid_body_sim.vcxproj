@@ -14,6 +14,7 @@
     <ClCompile Include="Barrier.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="CUDA.cpp" />
     <ClCompile Include="GLconversions.cpp" />
     <ClCompile Include="GPU.cpp" />
     <ClCompile Include="Mesh_OGL3.cpp" />
@@ -33,6 +34,7 @@
   <ItemGroup>
     <ClInclude Include="BufferObject.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision_CUDA.cuh" />
     <ClInclude Include="GLconversions.hpp" />
     <ClInclude Include="Mesh_OGL3.h" />
     <ClInclude Include="ObjParser_OGL3.h" />
@@ -60,6 +62,7 @@
     <None Include="vertexShader.vert" />
   </ItemGroup>
   <ItemGroup>
+    <CudaCompile Include="Collision_CUDA.cu" />
     <CudaCompile Include="vec_add_test.cu" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

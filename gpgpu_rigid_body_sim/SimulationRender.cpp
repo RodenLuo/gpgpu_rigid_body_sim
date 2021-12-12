@@ -23,11 +23,12 @@ void Simulation::Render() {
 
 	//GPU Collision handler
 	if (run && GPU_isActive) Collision_GPU();
+	if (run && CUDA_isActive) Collision_CUDA();
 
 	//The ball handler loop
 	for (size_t i = 0; i < numberOfBalls; i++) {
 		//CPU Collision handler
-		if (run && !GPU_isActive) Collision_CPU(i);
+		if (run && !GPU_isActive && !CUDA_isActive) Collision_CPU(i);
 
 		//Ball Drawer
 		glm::mat4 wallWorld = glm::translate(positions[i]);
@@ -106,13 +107,21 @@ void Simulation::Render() {
 
 		ImGui::Text("Collision calculation on:"); ImGui::SameLine();
 		static int radioValue = 0;
-		if (ImGui::RadioButton("GPU", &radioValue, 0)) if (radioValue == 0) {
+		if (ImGui::RadioButton("OpenCL", &radioValue, 0)) if (radioValue == 0) {
 			GPU_isActive = true;
 			Update_GPU(true);
+			CUDA_isActive = false;
 		} ImGui::SameLine();
 		if (ImGui::RadioButton("CPU", &radioValue, 1)) if (radioValue == 1) {
 			GPU_isActive = false;
 			UpdateVelocitiesFrom_GPU();
+			CUDA_isActive = false;
+		} ImGui::SameLine();
+		if (ImGui::RadioButton("CUDA", &radioValue, 2)) if (radioValue == 2) {
+			GPU_isActive = false;
+			UpdateVelocitiesFrom_GPU();
+
+			CUDA_isActive = true;
 		}
 
 		if (ImGui::Button("RESET")) {

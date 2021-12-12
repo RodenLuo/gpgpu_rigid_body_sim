@@ -63,8 +63,17 @@ private:
 	void Collision_CPU(size_t i);
 	void Collision_GPU();
 	void Update_GPU(bool updateAll = true);
+	
+	void VecAddTest_CUDA();
+	void Collision_CUDA();
+	void Update_CUDA(bool updateAll = true);
+	void Init_CUDA();
+	void Free_CUDA();
+
 	void UpdateVelocitiesFrom_GPU();
 	bool GPU_isActive = true;
+
+	bool CUDA_isActive = false;
 
 	//Simulation variables
 	int numberOfBalls = 25;
@@ -113,6 +122,12 @@ private:
 	cl::Program program;
 	cl::Kernel kernel;
 	cl::Buffer CLvelocities, CLpositions, CLcollisionCheck;
+
+	// CUDA variables 
+	float* positions_cuda;
+	float* velocities_cuda;
+	float* gravity_cuda;
+	float* barrierShift_cuda;
 };
 
 std::string currentDateTime();

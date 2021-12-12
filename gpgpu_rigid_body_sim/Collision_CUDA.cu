@@ -1,6 +1,17 @@
 #include "Collision_CUDA.cuh"
 #include <iostream>
 
+__device__ glm::vec3 vload3(int i, float* array)
+{
+	return glm::vec3(array[i * 3], array[i * 3 + 1], array[i * 3 + 2]);
+}
+
+__device__ void vstore3(glm::vec3 vec, int i, float* array)
+{
+	array[i * 3] = vec.x;
+	array[i * 3 + 1] = vec.y;
+	array[i * 3 + 2] = vec.z;
+}
 
 __global__ void collision_kernel(float* positions, float* velocities, int numberOfBalls,
 	float boxSize, float resistance, glm::vec3 gravity, int ballCollisionRun,
@@ -8,9 +19,13 @@ __global__ void collision_kernel(float* positions, float* velocities, int number
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 
-	/*float3 tmp = float3(0.0f, 0.0f, 0.0f);*/
+	glm::vec3 iVelocity = vload3(i, velocities);
+	glm::vec3 iPosition = vload3(i, positions);
 
-	positions[3 * i] = 0;
+	iPosition += 1.0;
+
+	vstore3(iPosition, i, positions);
+
 
 }
 

@@ -133,14 +133,15 @@ void Simulation::Render() {
 			CUDA_isActive = false;
 		} ImGui::SameLine();
 		if (ImGui::RadioButton("CPU", &radioValue, 1)) if (radioValue == 1) {
+			if (GPU_isActive)
+				UpdateVelocitiesFrom_GPU();
+			else if (CUDA_isActive)
+				UpdateVelocitiesFrom_CUDA();
 			GPU_isActive = false;
-			UpdateVelocitiesFrom_GPU();
 			CUDA_isActive = false;
 		} ImGui::SameLine();
 		if (ImGui::RadioButton("CUDA", &radioValue, 2)) if (radioValue == 2) {
 			GPU_isActive = false;
-			UpdateVelocitiesFrom_GPU();
-
 			CUDA_isActive = true;
 			Update_CUDA(true);
 		}

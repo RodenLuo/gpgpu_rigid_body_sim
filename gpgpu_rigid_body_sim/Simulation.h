@@ -74,6 +74,7 @@ private:
 	
 
 	void UpdateVelocitiesFrom_GPU();
+	void UpdateVelocitiesFrom_CUDA();
 	bool GPU_isActive = true;
 
 	bool CUDA_isActive = false;

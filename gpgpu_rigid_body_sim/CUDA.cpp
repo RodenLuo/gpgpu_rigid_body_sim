@@ -78,6 +78,10 @@ void Simulation::Collision_CUDA()
 	return;
 }
 
+void Simulation::UpdateVelocitiesFrom_CUDA() {
+	cudaMemcpy(velocities, velocities_cuda, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyDeviceToHost);
+}
+
 void Simulation::Init_CUDA()
 {
 	cudaMalloc((void**)&positions_cuda, 3 * numberOfBallsArray * sizeof(float));

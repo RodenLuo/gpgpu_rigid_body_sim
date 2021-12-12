@@ -93,13 +93,11 @@ void Simulation::Render() {
 		if (ImGui::SliderFloat3("Gravity", &(gravity[0]), -0.02f, 0.02f))
 		{
 			Update_GPU(false);
-			Update_CUDA(false);
 		}
 
 		if (ImGui::SliderFloat("Resistance", &(resistance), 0.9f, 1.0f)) 
 		{
 			Update_GPU(false);
-			Update_CUDA(false);
 		}
 
 		ImGui::SliderFloat("Ball Init Speed", &(ballInitSpeed), 0.0f, 1.0f);
@@ -108,12 +106,10 @@ void Simulation::Render() {
 			wallBuilder();
 			if (barrierIsOn) barrierBuilder();
 			Update_GPU(false);
-			Update_CUDA(false);
 		}
 		if (ImGui::SliderInt("Number of Balls", &(numberOfBalls), 1, numberOfBallsArray - 1))
 		{
 			Update_GPU(false);
-			Update_CUDA(false);
 		}
 		
 		ImGui::Checkbox("Random XZ", &randomXZ); ImGui::SameLine(150);
@@ -122,7 +118,6 @@ void Simulation::Render() {
 		if (ImGui::Checkbox("Collision", &ballCollisionRun))
 		{
 			Update_GPU(false);
-			Update_CUDA(false);
 		}
 
 		ImGui::Text("Collision calculation on:"); ImGui::SameLine();
@@ -143,7 +138,7 @@ void Simulation::Render() {
 		if (ImGui::RadioButton("CUDA", &radioValue, 2)) if (radioValue == 2) {
 			GPU_isActive = false;
 			CUDA_isActive = true;
-			Update_CUDA(true);
+			Update_CUDA();
 		}
 
 		if (ImGui::Button("RESET")) {

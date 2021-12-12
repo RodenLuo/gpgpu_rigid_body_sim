@@ -102,12 +102,9 @@ void Simulation::Free_CUDA()
 	cudaFree(velocities_cuda);
 }
 
-void Simulation::Update_CUDA(bool updateAll) {
+void Simulation::Update_CUDA() {
 	//Write the current vectors to CUDA
 
-	if (updateAll) {
-		cudaMemcpy(positions_cuda, positions, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyHostToDevice);
-		cudaMemcpy(velocities_cuda, velocities, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyHostToDevice);
-	}
-	
+	cudaMemcpy(positions_cuda, positions, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyHostToDevice);
+	cudaMemcpy(velocities_cuda, velocities, 3 * numberOfBallsArray * sizeof(float), cudaMemcpyHostToDevice);
 }

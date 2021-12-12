@@ -70,7 +70,7 @@ private:
 	
 	void VecAddTest_CUDA();
 	void Collision_CUDA();
-	void Update_CUDA(bool updateAll = true);
+	void Update_CUDA();
 	
 
 	void UpdateVelocitiesFrom_GPU();

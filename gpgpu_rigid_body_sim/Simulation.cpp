@@ -85,6 +85,7 @@ void Simulation::ballInit() {
 	}
 	//Copy datas to GPU
 	if (GPU_isActive) Update_GPU();
+	if (CUDA_isActive) Update_CUDA();
 }
 
 void Simulation::Clean() {

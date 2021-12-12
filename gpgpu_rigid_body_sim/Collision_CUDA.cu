@@ -19,8 +19,19 @@ __global__ void collision_kernel(float* positions, float* velocities, int number
 {
 	int i = blockIdx.x * blockDim.x + threadIdx.x;
 
+	if (i > numberOfBalls)
+		return;
+
 	glm::vec3 iVelocity = vload3(i, velocities);
 	glm::vec3 iPosition = vload3(i, positions);
+
+	bool tmp_test = false;
+	if (tmp_test)
+	{
+		iPosition += 0.1f;
+		vstore3(iPosition, i, positions);
+		return;
+	}
 
 	//Apply the velocities, the gravity and the resistance
 	iVelocity = iVelocity - gravity;

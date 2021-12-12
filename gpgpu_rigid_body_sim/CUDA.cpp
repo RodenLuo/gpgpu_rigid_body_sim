@@ -64,8 +64,8 @@ void Simulation::Collision_CUDA()
 	int barrierIsOnGPU = 0;
 	if (barrierIsOn) barrierIsOnGPU = 1;
 
-	int thread_per_block = 100;
-	int block_per_grid = numberOfBallsArray / thread_per_block;
+	int thread_per_block = 256;
+	int block_per_grid = ceil((float)numberOfBalls / thread_per_block);
 	dim3 block_dim(thread_per_block, 1, 1);
 	dim3 grid_dim(block_per_grid, 1, 1);
 

@@ -75,9 +75,9 @@ private:
 
 	void UpdateVelocitiesFrom_GPU();
 	void UpdateVelocitiesFrom_CUDA();
-	bool GPU_isActive = true;
+	bool GPU_isActive = false;
 
-	bool CUDA_isActive = false;
+	bool CUDA_isActive = true;
 
 	//Simulation variables
 	int numberOfBalls = 25;

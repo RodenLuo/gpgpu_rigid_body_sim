@@ -113,12 +113,15 @@ int main(int argc, char* args[])
 	Simulation simulation;
 
 	//OpenCL Initialisation
-	if (!simulation.InitCL()) {
-		SDL_GL_DeleteContext(context);
-		SDL_DestroyWindow(window);
-		std::cerr << currentDateTime() << "- [OpenCL INIT ERROR]" << std::endl;
-		return 1;
-	}
+	//if (!simulation.InitCL()) {
+	//	SDL_GL_DeleteContext(context);
+	//	SDL_DestroyWindow(window);
+	//	std::cerr << currentDateTime() << "- [OpenCL INIT ERROR]" << std::endl;
+	//	return 1;
+	//}
+
+	// CUDA Init
+	simulation.Init_CUDA();
 
 	//Simulation Initialisation
 	if (!simulation.Init()) {
@@ -128,8 +131,6 @@ int main(int argc, char* args[])
 		return 1;
 	}
 
-	// CUDA Init
-	simulation.Init_CUDA();
 
 	SDL_AddTimer(1000, fps_timer_callback, NULL);
 	//https://wiki.libsdl.org/SDL_atomic_t

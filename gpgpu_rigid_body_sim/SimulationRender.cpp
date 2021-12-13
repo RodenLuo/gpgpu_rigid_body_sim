@@ -22,7 +22,7 @@ void Simulation::Render() {
 	//shader.SetUniform("Ls", camera.getCameraPosition());
 
 	//GPU Collision handler
-	if (run && GPU_isActive) Collision_GPU();
+	//if (run && GPU_isActive) Collision_GPU();
 	if (run && CUDA_isActive) Collision_CUDA();
 
 	//The ball handler loop
@@ -92,12 +92,12 @@ void Simulation::Render() {
 
 		if (ImGui::SliderFloat3("Gravity", &(gravity[0]), -0.02f, 0.02f))
 		{
-			Update_GPU(false);
+			//Update_GPU(false);
 		}
 
 		if (ImGui::SliderFloat("Resistance", &(resistance), 0.9f, 1.0f)) 
 		{
-			Update_GPU(false);
+			//Update_GPU(false);
 		}
 
 		ImGui::SliderFloat("Ball Init Speed", &(ballInitSpeed), 0.0f, 1.0f);
@@ -105,11 +105,11 @@ void Simulation::Render() {
 		if (ImGui::SliderFloat("Box Size", &(boxSize), 5.0f, 100.0f)) {
 			wallBuilder();
 			if (barrierIsOn) barrierBuilder();
-			Update_GPU(false);
+			//Update_GPU(false);
 		}
 		if (ImGui::SliderInt("Number of Balls", &(numberOfBalls), 1, numberOfBallsArray - 1))
 		{
-			Update_GPU(false);
+			//Update_GPU(false);
 		}
 		
 		ImGui::Checkbox("Random XZ", &randomXZ); ImGui::SameLine(150);
@@ -117,14 +117,14 @@ void Simulation::Render() {
 		ImGui::Checkbox("RUN", &run); ImGui::SameLine(150);
 		if (ImGui::Checkbox("Collision", &ballCollisionRun))
 		{
-			Update_GPU(false);
+			//Update_GPU(false);
 		}
 
 		ImGui::Text("Collision calculation on:"); ImGui::SameLine();
-		static int radioValue = 0;
+		static int radioValue = 2;
 		if (ImGui::RadioButton("OpenCL", &radioValue, 0)) if (radioValue == 0) {
 			GPU_isActive = true;
-			Update_GPU(true);
+			//Update_GPU(true);
 			CUDA_isActive = false;
 		} ImGui::SameLine();
 		if (ImGui::RadioButton("CPU", &radioValue, 1)) if (radioValue == 1) {
